@@ -140,6 +140,12 @@ files:
     if __name__ == '__main__':
         CalcTest("calculator.calculator").run_tests()
   learner_created: false
+- name: calculator/parser.py
+  visible: true
+  learner_created: true
 feedback_link: https://hyperskill.org/projects/74/stages/412/implement#comment
-status: Unchecked
-record: -1
+status: Solved
+feedback:
+  message: Congratulations!
+  time: Sun, 17 Jan 2021 19:49:01 UTC
+record: 4
