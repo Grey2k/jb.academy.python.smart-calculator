@@ -273,6 +273,23 @@ files:
     if __name__ == '__main__':
         CalcTest("calculator.calculator").run_tests()
   learner_created: false
+- name: calculator/__init__.py
+  visible: true
+  learner_created: true
 feedback_link: https://hyperskill.org/projects/74/stages/414/implement#comment
-status: Unchecked
+status: Failed
+feedback:
+  message: |-
+    Wrong answer in test #3
+
+    Unexpected reaction after assignment.The program should not print anything in this case.
+
+    Please find below the output of your program during this failed test.
+    Note that the '>' character indicates the beginning of the input line.
+
+    ---
+
+    > n = 5
+    Invalid expression
+  time: Sun, 10 Oct 2021 12:37:31 UTC
 record: -1

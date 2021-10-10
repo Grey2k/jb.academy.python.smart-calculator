@@ -1,0 +1,12 @@
+type: code
+files:
+- name: main.py
+  visible: true
+  text: colors = ...
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/13911#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: Sun, 10 Oct 2021 13:30:34 UTC
+record: -1
