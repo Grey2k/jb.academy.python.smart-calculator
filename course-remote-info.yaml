@@ -3,7 +3,7 @@ hyperskill_project:
   ide_files: https://stepik.org/media/attachments/lesson/240846/additional_files.json
   is_template_based: false
   use_ide: true
-update_date: Sun, 14 Feb 2021 18:38:09 UTC
+update_date: Sun, 10 Oct 2021 12:33:10 UTC
 stages:
 - id: 409
   step: 6590
@@ -28,6 +28,12 @@ stages:
   is_completed: false
 topics:
   0:
+  - title: Immutability
+    theory_id: 7929
+  - title: Computer programming
+    theory_id: 8739
+  - title: Introduction to OOP
+    theory_id: 3614
   - title: Introduction to Python
     theory_id: 5204
   - title: Overview of the basic program
@@ -44,10 +50,10 @@ topics:
     theory_id: 5913
   - title: Program with numbers
     theory_id: 5872
-  - title: Invoking a function
-    theory_id: 5891
   - title: If statement
     theory_id: 5953
+  - title: While loop
+    theory_id: 5940
   - title: For loop
     theory_id: 6065
   - title: Basic data types
@@ -64,12 +70,24 @@ topics:
     theory_id: 6224
   - title: List
     theory_id: 5979
+  - title: Indexes
+    theory_id: 6189
+  - title: Invoking a function
+    theory_id: 5891
+  - title: Basic string methods
+    theory_id: 6842
   - title: Boolean logic
     theory_id: 6025
   - title: Comparisons
     theory_id: 5920
-  - title: Basic string methods
-    theory_id: 6842
+  - title: Dictionary
+    theory_id: 6481
+  - title: Set
+    theory_id: 6643
+  - title: Tuple
+    theory_id: 7462
+  - title: How to choose a collection to use
+    theory_id: 13907
   - title: Split and join
     theory_id: 6972
   1:
@@ -77,12 +95,8 @@ topics:
     theory_id: 5932
   - title: Elif statement
     theory_id: 5926
-  - title: While loop
-    theory_id: 5940
   - title: Loop control statements
     theory_id: 6302
-  - title: Indexes
-    theory_id: 6189
   2:
   - title: Declaring a function
     theory_id: 5900
@@ -99,45 +113,31 @@ topics:
     theory_id: 8742
   - title: Components of computational thinking
     theory_id: 8745
-  - title: Functional decomposition
-    theory_id: 9571
   - title: PyCharm basics
     theory_id: 6193
+  - title: Functional decomposition
+    theory_id: 9571
   - title: Search in a string
     theory_id: 9558
   4:
-  - title: Files
-    theory_id: 6989
-  - title: Introduction to operating systems
-    theory_id: 9704
   - title: Computer algorithms
     theory_id: 4953
-  - title: Introducing the first algorithm
-    theory_id: 10336
   - title: The big O notation
-    theory_id: 4991
+    theory_id: 13991
   - title: Data structures
     theory_id: 5161
-  - title: Command line overview
-    theory_id: 8977
-  - title: Parameters and options
-    theory_id: 9746
-  - title: Introduction to OOP
-    theory_id: 3614
   - title: Program execution
     theory_id: 6047
-  - title: Scopes
-    theory_id: 6322
   - title: Load module
     theory_id: 6019
-  - title: Create module
-    theory_id: 6057
-  - title: Packages
-    theory_id: 6384
   - title: Errors
     theory_id: 6052
   - title: Exceptions
     theory_id: 6042
+  - title: Built-in exceptions
+    theory_id: 11680
+  - title: Exception handling
+    theory_id: 6270
   - title: Class
     theory_id: 6661
   - title: Class instances
@@ -146,41 +146,17 @@ topics:
     theory_id: 6931
   - title: Methods and attributes
     theory_id: 6981
-  - title: Files in Python
-    theory_id: 8691
-  - title: Reading files
-    theory_id: 8139
-  - title: Pip
-    theory_id: 6230
-  - title: Built-in exceptions
-    theory_id: 11680
-  - title: Exception handling
-    theory_id: 6270
+  - title: Assert statement
+    theory_id: 10372
   - title: String formatting
     theory_id: 6037
+  - title: Scopes
+    theory_id: 6322
   5:
-  - title: Immutability
-    theory_id: 7929
-  - title: 'Hashing: overview'
-    theory_id: 9831
-  - title: Hash table
-    theory_id: 5364
-  - title: Default arguments
-    theory_id: 10295
-  - title: Args
-    theory_id: 8560
-  - title: Kwargs
-    theory_id: 9544
   - title: Class vs instance
     theory_id: 6677
   - title: Magic methods
     theory_id: 7139
-  - title: Dictionary
-    theory_id: 6481
-  - title: Set
-    theory_id: 6643
-  - title: Tuple
-    theory_id: 7462
   - title: Identity testing
     theory_id: 8077
   - title: Dictionary methods
@@ -189,6 +165,18 @@ topics:
     theory_id: 11096
   - title: Objects in Python
     theory_id: 9262
+  - title: Default arguments
+    theory_id: 10295
+  - title: Args
+    theory_id: 8560
+  - title: Kwargs
+    theory_id: 9544
+  - title: 'Hashing: overview'
+    theory_id: 9831
+  - title: Hash function
+    theory_id: 10878
+  - title: Hash table
+    theory_id: 13054
   - title: Hashable
     theory_id: 7823
   6:
