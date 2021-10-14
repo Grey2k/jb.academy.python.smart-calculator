@@ -1,0 +1,106 @@
+<h2>Hashable</h2>
+<html>
+ <head></head>
+ <body>
+  <p>You may remember that when discussing dictionaries in Python, we mentioned that not every object can be a key in a dictionary. In this topic, we'll finally break it down by explaining what feature an object has to have so it could be used as a key in a dictionary and why, what Python types do not have that feature, and what it has to do with immutability.</p> 
+  <h5 style="text-align: center;">What does "hashable" mean?</h5> 
+  <p>In Python, only <strong>hashable </strong>objects can be dictionary keys (or set members). The notion of hashable objects is, naturally, connected to the <strong>hash table</strong> concept. According to official Python documentation, an object is <strong>hashable</strong> if it has a <strong>hash value </strong>that doesn't change during its lifetime and can be compared to other objects. In practice, it means that to be hashable objects need methods <code class="language-python">__hash__()</code> and <code class="language-python">__eq__()</code>. Both these methods are needed because the hash table can only guarantee that equal objects have the same hash value. Unequal objects may also have the same value, so we need additional constraints.</p> 
+  <p>Why only hashable objects can be keys in a dictionary? You may remember, that hash tables allow us to search for elements in constant time O(1) which is extremely efficient. Python dictionaries (and sets) implement a hash table by default so their keys need to be hashable.</p> 
+  <h5 style="text-align: center;">Hashable and unhashable types</h5> 
+  <p>In previous topics, we have discussed which objects in Python are mutable and which are not. Let's revise this information very quickly. Strings and integers are <strong>immutable </strong>because we cannot modify them. Putting it simply, if we write <code class="language-python">integer += 5</code> or <code class="language-python">string += "end"</code>, new objects are created, and these <code class="language-python">integer</code> and <code class="language-python">string</code> variables refer to the new objects, not the initial ones. Sets, lists and dictionaries, on the other hand, are <strong>mutable</strong>, so when we alter them, the same objects are modified.</p> 
+  <p>In Python, built-in <strong>immutable</strong> objects like strings or integers are hashable while <strong>mutable</strong> containers like sets, lists or dictionaries are not. Immutable containers (like tuples) are hashable if their elements are hashable. Don't forget about frozensets: they are also immutable and hashable.</p> 
+  <p>Let's see examples of how it works.</p> 
+  <pre><code class="language-python"># immutable objects
+string = "Python"
+integer = 4879
+
+print(string.__hash__())  # 227333825058812235
+print(integer.__hash__())  # 4879
+print(hash(string))  # 227333825058812235</code></pre> 
+  <p>There are two ways to get the hash value of an object: built-in <code class="language-python">hash()</code> function or <code class="language-python">__hash__()</code> method of an object. They are equivalent: in fact, <code class="language-python">hash()</code> function internally calls the <code class="language-python">__hash__()</code> method. If we call any of these two methods several times, we'll still get the same value: it is consistent during the lifetime of an object provided no changes occur. </p> 
+  <p>For unhashable objects, the function <code class="language-python">hash()</code> and the <code class="language-python">__hash__()</code> method throw <code class="language-python">TypeError</code>. The same happens if you try to make them dictionary keys or set members:</p> 
+  <pre><code class="language-python">name_list = ["Julius Caesar"]
+
+print(hash(name_list))  # TypeError: unhashable type: 'list'
+dictionary[name_list] = "This is Julius Caesar"  # TypeError</code></pre> 
+  <p>The <code class="language-python">__eq__</code> method allows you to compare two values and check if they are equal. Think of it as the equality operator <code class="language-python">==</code>.</p> 
+  <pre><code class="language-python"># immutable objects
+question = 'ultimate'
+answer = 42
+
+print(answer.__eq__(42))           # True
+print(answer.__eq__(13))           # False
+print(question.__eq__('age-old'))  # False
+
+# mutable objects
+numbers = [0, 1]
+similar = (0, 1)
+print(numbers.__eq__([0, 1]))   # True
+print(numbers.__eq__(similar))  # NotImplemented</code></pre> 
+  <p>As shown, the method <code class="language-python">__eq__</code> has a wider application, therefore, you can compare both mutable and immutable objects. The comparison typically results in either <code class="language-python">True</code> or <code class="language-python">False</code>, however, the <code class="language-python">NotImplemented</code> object may crop up in cases when the types of given values cannot be compared.</p> 
+  <h5 style="text-align: center;">Immutable containers</h5> 
+  <p>Immutable containers are hashable if their elements are hashable because the hash value of a container is calculated using the hash values of its elements. You can see it in the tuple examples below:</p> 
+  <pre><code class="language-python"># tuple with strings
+traffic_light = ("red", "yellow", "green")
+print(hash(traffic_light))  # -2348372572745757353
+
+# tuple with lists
+rainbow = (["red", "orange", "yellow"], ["green", "blue", "purple"])
+print(hash(rainbow))  # TypeError: unhashable type: 'list'</code></pre> 
+  <p>For built-in types, the hash value depends on the data stored in the object and not on its identity. This is evident when we have two different objects with the same values. Let's take a look at two tuples:</p> 
+  <pre><code class="language-python">name1 = ("Monty", "Python")
+name2 = ("Monty", "Python")
+
+# id
+print(id(name1))  # 4539220360
+print(id(name2))  # 4539220424
+
+# hash values
+print(hash(name1))  # -2157490067397391360
+print(hash(name2))  # -2157490067397391360</code></pre> 
+  <p>As you can see, even though these are different objects with different ids, their hash values are the same. This means that in a dictionary these two objects will be considered as one:</p> 
+  <pre><code class="language-python">dictionary = {}
+dictionary[name1] = "This is Monty Python"
+dictionary[name2] = "This is also Monty Python"
+
+print(dictionary[name1])  # This is also Monty Python</code></pre> 
+  <p>The fact that hash values depend on the data in the object also explains why mutable containers are not hashable. If they were, their hash values would change when they would change within the same lifetime of an object. However, the objects in the dictionaries are searched by their hash values. So, when the hash value of an object changes during the lifetime, the key-value pair is lost to you.</p> 
+  <h5 style="text-align: center;">Hashable check</h5> 
+  <p>In order to avoid errors, we may want to check if an object is hashable. This can be done with the help of the <code class="language-python">collections</code> module. This module has an abstract base class <code class="language-python">Hashable</code> that we can use. The "hash check", so to speak, is carried out with the <code class="language-python">isinstance()</code> function:</p> 
+  <pre><code class="language-python">from collections.abc import Hashable
+
+obj = ...  # some object
+isinstance(obj, Hashable)  # True or False</code></pre> 
+  <p>Evidently, for hashable objects, this function will return <code class="language-python">True</code>, otherwise — <code class="language-python">False</code>. Below are some examples:</p> 
+  <pre><code class="language-python"># float
+isinstance(3.14, Hashable)  # True
+
+# string
+isinstance("3.14", Hashable)  # True
+
+# tuple
+isinstance((3.14,), Hashable)  # True
+
+# frozenset
+isinstance(frozenset({3.14,}), Hashable)  # True
+
+# dict
+isinstance({3.14: "Pi number"}, Hashable)  # False
+
+# list
+isinstance([3.14], Hashable)  # False
+
+# set
+isinstance({3.14,}, Hashable)  # False</code></pre> 
+  <p>All of the built-in immutable types you have learned so far are hashable, and the mutable container types (sets, lists, and dictionaries) are not. So for present purposes, you can think of the characteristics <em>hashable</em> and <em>immutable</em> as synonymous.</p> 
+  <h5 style="text-align: center;">Hashable custom classes</h5> 
+  <p>Objects of custom classes are hashable by default. This is because the class <code class="language-python">object</code>, which is the parent class of all custom classes, has both <code class="language-python">__hash__()</code> and <code class="language-python">__eq__()</code> methods. You can define a custom implementation of these methods but there are several tricky parts when it comes to that. We won't be covering them in this topic and, anyway, in most cases, default implementations are enough. One thing we will point out, though, is that unlike built-in types, custom classes have their hash values derived from their id's and not their data.</p> 
+  <h5 style="text-align: center;">Summary</h5> 
+  <p>To sum it up, dictionaries can only use <strong>hashable</strong> objects as their keys. In Python, an object is hashable if it satisfies the following two conditions:</p> 
+  <ol> 
+   <li>We can calculate its <strong>hash value</strong> (that is, an object has the <code class="language-python">__hash__()</code> method)</li> 
+   <li>We can <strong>compare</strong> it to other objects (that is, an object has <code class="language-python">__eq__()</code> method)</li> 
+  </ol> 
+  <p>The concept of hashable objects is connected to the concept of <strong>(</strong><strong>im</strong><strong>)mutability</strong>. Even though they are different, a good rule of thumb is that <strong>immutable</strong> objects are hashable (with a few exceptions).</p>
+ </body>
+</html>
