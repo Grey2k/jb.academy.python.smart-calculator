@@ -1,0 +1,17 @@
+type: code
+files:
+- name: main.py
+  visible: true
+  text: |-
+    def calculate(amount, interest_rate, time):
+        # your code here
+
+    def print_result(interest, total_amount):
+        # your code here
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/15772#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: Sat, 16 Oct 2021 09:18:49 UTC
+record: -1

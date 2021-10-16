@@ -1,5 +1,4 @@
 from string import ascii_letters
-from collections import deque
 
 COMMAND_EXIT = '/exit'
 COMMAND_HELP = '/help'
@@ -20,17 +19,76 @@ OPERATIONS = {OPERATOR_PLUS, OPERATOR_MINUS, OPERATOR_MULTIPLY, OPERATOR_DIVIDE,
 
 
 class Calculator:
-    variables = {}
+    def __init__(self):
+        self.variables = {}
+        self.operands = []
 
-    def __init__(self, operands: list):
+    def start(self, operands: list):
         try:
             self.operands = self.__convert(operands)
-            print(self.operands)
+
+            # print(self.operands)
         except Exception:
             raise ValueError('Invalid expression')
 
     def calculate(self):
-        pass
+        stack = []
+
+        if not self.operands:
+            raise ValueError('Invalid expression')
+
+        if '=' in self.operands:
+            if len(self.operands) != 3:
+                raise ValueError('Invalid assignment')
+
+            value = self.operands[1]
+
+            if isinstance(value, int):
+                self.variables[self.operands[0]] = self.operands[1]
+            else:
+                value = self.variables.get(self.operands[1])
+
+                if value is None:
+                    raise ValueError('Unknown variable')
+                self.variables[self.operands[0]] = value
+            return None
+
+        for operand in self.operands:
+            if isinstance(operand, int):
+                stack.append(operand)
+                continue
+
+            if operand in OPERATIONS:
+                second = stack.pop()
+                first = stack.pop()
+
+                if operand == OPERATOR_PLUS:
+                    stack.append(first + second)
+                    continue
+
+                if operand == OPERATOR_MINUS:
+                    stack.append(first - second)
+                    continue
+
+                if operand == OPERATOR_MULTIPLY:
+                    stack.append(first * second)
+                    continue
+
+                if operand == OPERATOR_DIVIDE:
+                    stack.append(first / second)
+                    continue
+
+                if operand == OPERATOR_POW:
+                    stack.append(first ** second)
+                    continue
+
+            val = self.variables.get(operand)
+
+            if val is None:
+                raise ValueError('Unknown Variable')
+            stack.append(val)
+
+        return int(stack[-1])
 
     @staticmethod
     def __is_variable(op: str):
@@ -86,18 +144,24 @@ class Calculator:
                 continue
 
             if op == ')':
+                found = False
                 while stack:
                     val = stack.pop()
                     if val == '(':
+                        found = True
                         break
 
                     result.append(val)
+
+                if not found:
+                    raise ValueError('Invalid expression')
+
                 continue
 
         while stack:
             val = stack.pop()
             if val == '(':
-                ValueError('Invalid expression')
+                raise ValueError('Invalid expression')
 
             result.append(val)
 
@@ -201,7 +265,7 @@ def parse_str(raw_string: str) -> list:
                 operator = True
                 continue
             else:
-                ValueError('Invalid identifier')
+                raise ValueError('Invalid identifier')
 
         if digit and char.isdigit():
             item += char
@@ -209,9 +273,12 @@ def parse_str(raw_string: str) -> list:
 
         if operator and char in OPERATIONS:
             if char == item:
-                continue
+                if char in {OPERATOR_PLUS, OPERATOR_MINUS}:
+                    continue
+                else:
+                    raise ValueError('Invalid expression')
             if char != item:
-                ValueError('Invalid expression')
+                raise ValueError('Invalid expression')
 
         if operator and char not in OPERATIONS:
             items.append(item)
@@ -242,7 +309,7 @@ def parse_str(raw_string: str) -> list:
                 operator = True
                 continue
             else:
-                ValueError('Invalid identifier')
+                raise ValueError('Invalid identifier')
 
     if item.strip().lstrip('-+').isdigit():
         items.append(int(item.strip().lstrip('+')))
@@ -251,6 +318,8 @@ def parse_str(raw_string: str) -> list:
 
     return items
 
+
+calculator = Calculator()
 
 while True:
     try:
@@ -275,9 +344,9 @@ while True:
     try:
         operands_seq = parse_str(user_input)
 
-        print(operands_seq)
+        # print(operands_seq)
 
-        calculator = Calculator(operands_seq)
+        calculator.start(operands_seq)
         calc_result = calculator.calculate()
 
         if calc_result is None:
