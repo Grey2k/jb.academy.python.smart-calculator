@@ -103,62 +103,6 @@ class Calculator:
 
         return result
 
-    def calculate(operands_list: list):
-        stack = []
-        assignment = False
-
-        for o in operands_list:
-            if o in VARIABLES:
-                var_name = o
-                var_value = VARIABLES.get(o)
-                stack.append((var_value, var_name))
-            elif isinstance(o, int):
-                stack.append((o, None))
-            elif o in (OPERATOR_PLUS, OPERATOR_MINUS, OPERATOR_EQUAL):
-                if len(stack) == 0 or stack[-1] in (OPERATOR_PLUS, OPERATOR_MINUS, OPERATOR_EQUAL):
-                    raise ValueError(f'Invalid assignment')
-                stack.append(o)
-            else:
-                # unknown variable
-                stack.append((None, o))
-
-            if len(stack) == 3:
-                val = stack.pop()
-                op = stack.pop()
-                res = stack.pop()
-
-                if val[0] is None:
-                    raise ValueError(f'Unknown variable')
-
-                if op == OPERATOR_PLUS:
-                    op_res = (res[0] + val[0], res[1])
-                elif op == OPERATOR_MINUS:
-                    op_res = (res[0] - val[0], res[1])
-                elif op == OPERATOR_EQUAL:
-                    if res[1] is None:
-                        raise ValueError(f'Unknown variable')
-
-                    if len(operands_list) > 3:
-                        raise ValueError(f'Invalid assignment')
-
-                    VARIABLES[res[1]] = val[0]
-                    op_res = (val[0], res[1])
-                    assignment = True
-                else:
-                    raise ValueError(f'Unknown operator')
-
-                stack.append(op_res)
-
-        if len(stack) == 0:
-            return None
-
-        if len(stack) == 1:
-            if stack[-1][0] is None:
-                raise ValueError(f'Unknown variable')
-            if assignment:
-                return None
-            return stack.pop()[0]
-
 
 def parse_str(raw_string: str) -> list:
     items = []
